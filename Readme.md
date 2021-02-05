@@ -20,15 +20,23 @@ This Application Automates Voice announcements for blood groups in the Hospital.
 
 For Setting up the Environment: (python v 2.7.*)
 
+It is always a good approach to have separate virtual environments for our applications and install the required packages in that environment. 
+
 Ubuntu Environment :
+
 sudo apt-get install python-flask
+
 sudo apt-get install python-pyaudio
+
 we also use packages like schedule and pygame for pausing and playing while the announcement is being made.
 
 Windows Environment :
-Install Ananconda which is present in the folder
-Install pyaudio which is also present in the folder
-Install the schedule and pygame using wheel files present in the folder.
+
+Install Ananconda which is present in the folder or can be downloaded from Anaconda.org and can be installed system wide.
+
+Install pyaudio which is also present in the folder or can be downloaded as wheel file and installed using the pip command.
+
+Similarly  schedule and pygame packages wheel files can be downloaded and installed using pip command for each of them.
 
 
 
