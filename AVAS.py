@@ -29,7 +29,7 @@ app = Flask(__name__)								# initialize object of flask
 
 if(urllib.urlopen(url).getcode()!=200): 			# check whether the stream is available or not if not then make the variable 1 meaning we play through pygame.
 
-stream_or_game=1									# variable stream_or_game: if 0 then through stream else through pygame we play the songs.
+	stream_or_game=1									# variable stream_or_game: if 0 then through stream else through pygame we play the songs.
 
 
 pygame.mixer.pre_init(44100, 16, 2, 4096)           # initialize the pygame mixer.
