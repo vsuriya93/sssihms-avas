@@ -9,7 +9,7 @@ The outline of the application is as following:
 A server is hosted locally which serves the client webpages and when ever any request is made to the server regarding the announcements then the appropriate voice announcement is made.
 
 The work flow of the module is given as below diagram :
-![AVAS LOGO](https://raw.githubusercontent.com/gauthamdasu/SSSIHMS-AVAS/master/SSSIHMS-AVAS/avas_outline.png) 
+![AVAS LOGO](./avas_outline.png) 
 
 From the diagram we see that, there is  a python flask based webserver running, and clients can connect to the server through a web
 interface. Using their credentials they can log in and make the request for the blood.
@@ -25,15 +25,23 @@ The name of this Application is AVAS (Automated Voice Announcement System).
 Steps for setting up the enviroment.
 For Setting up the Environment: (python v 2.7.*)
 
+It is always a good approach to have separate virtual environments for our applications and install the required packages in that environment. 
+
 Ubuntu Environment :
+
 sudo apt-get install python-flask
+
 sudo apt-get install python-pyaudio
+
 we also use packages like schedule and pygame for pausing and playing while the announcement is being made.
 
 Windows Environment :
-Install Ananconda which is present in the folder
-Install pyaudio which is also present in the folder
-Install the schedule and pygame using wheel files present in the folder.
+
+Install Ananconda which is present in the folder or can be downloaded from Anaconda.org and can be installed system wide.
+
+Install pyaudio which is also present in the folder or can be downloaded as wheel file and installed using the pip command.
+
+Similarly  schedule and pygame packages wheel files can be downloaded and installed using pip command for each of them.
 
 
 

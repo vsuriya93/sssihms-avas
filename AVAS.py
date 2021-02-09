@@ -38,10 +38,8 @@ url = "http://stream.radiosai.org:8000/"
 # initialize object of flask
 app = Flask(__name__)
 
-# check whether the stream is available or not if not then make the variable 1
-# meaning we play through pygame.10
-# variable stream_or_game: if 0 then through stream else through pygame we
-# play the songs.
+
+	stream_or_game=1									# variable stream_or_game: if 0 then through stream else through pygame we play the songs.
 
 if (urllib.urlopen(url).getcode()) != 200:
     stream_or_game = 1
