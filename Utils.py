@@ -4,8 +4,6 @@ import pygame
 import webbrowser
 
 
-
-
 # Module for playing that days playlist.
 def get_day():
 	now = datetime.datetime.now()

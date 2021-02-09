@@ -14,7 +14,7 @@ import schedule
 import os
 import pygame
 import sys
-from global import *                # import all the variable required from the global.py
+from globals import *                # import all the variable required from the global.py
 
 def play_audio(path):
 	chunk = 1048#1024 
