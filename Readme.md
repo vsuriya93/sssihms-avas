@@ -1,23 +1,28 @@
 #							 OM SRI SAIRAM
 # SSSIHMS AVAS - Automated Voice Announcement System
-AVAS is an open source contribution from DMACS (Dept. of Mathematics and Computer Science) Sri Sathya Sai Institue Of Higher learning Puttaparthi.
-The main goal of the program is to make a recorded voice announcement for the approriate blood group.
-There is a server running which serves the client through the webpages and when a request is made then the appropriate voice announcement is made.
+AVAS is an open source contribution from DMACS (Dept. of Mathematics and Computer Science) Sri Sathya Sai Institute Of Higher learning Puttaparthi.
+
+The main goal of the program is to make recorded voice announcements for the appropriate blood groups as and when any requirements arises in the Hospital .
+
+The outline of the application is as following:
+
+A server is hosted locally which serves the client webpages and when ever any request is made to the server regarding the announcements then the appropriate voice announcement is made.
 
 The work flow of the module is given as below diagram :
 ![AVAS LOGO](./avas_outline.png) 
 
-In our particular case of SSSIHMS a continous stream of music(Bhajans) are played. So when a request for the blood requirements are made
-then the music is paused and the announcement is made and then is unpaused.
+From the diagram we see that, there is  a python flask based webserver running, and clients can connect to the server through a web
+interface. Using their credentials they can log in and make the request for the blood.
 
-From the diagram we see that a python flask based webserver is running continiously, clients can be connected to the server through a web
-interface and using their credentials they can log in and make the request for the blood.
-Other details are as below:
+In our particular case of SSSIHMS a continous stream of music(Bhajans) is played. So when a request for the blood requirements is made
+then the music is paused and the announcement is made. After the announcement is completed then is music is un paused. 
 
-The name of this Application is AVAS(Automated Voice Announcement System).
-This Application Automates Voice announcements for blood groups in the Hospital.
+Another special case which is handled is that, the bhajan stream of music should be in a lower tone(volume) compared to the announcement volume(in windows environment). This special case was also handled using the inbuilt libraries provided for windows environment.
 
 
+The name of this Application is AVAS (Automated Voice Announcement System).
+
+Steps for setting up the enviroment.
 For Setting up the Environment: (python v 2.7.*)
 
 It is always a good approach to have separate virtual environments for our applications and install the required packages in that environment. 
