@@ -30,8 +30,7 @@ def play_audio(path):
 		  stream.stop_stream()
 		  stream.close()
 		  p.terminate()
-	  if (str_var==1):
-		  stream.start_stream()
+		  return
 	  stream.write(data)
 	  data = f.readframes(chunk)
 	stream.stop_stream()
@@ -152,7 +151,6 @@ def bhajans_stop():
         pygame.mixer.music.stop()
         value=0
         schedule.clear('daily-tasks')
-        sys.exit()
         return schedule.CancelJob
 
 def pause():

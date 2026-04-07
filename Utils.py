@@ -2,6 +2,7 @@ import time
 import datetime
 import pygame
 import webbrowser
+from easygui import multpasswordbox, buttonbox, msgbox
 
 
 # Module for playing that days playlist.
