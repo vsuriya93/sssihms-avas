@@ -2,7 +2,7 @@
 <html>
 <title>ADD USER</title>
 <body>
-<form action="http://localhost:5000/logout" method="post">
+<form action="/logout" method="post">
 	<button type="submit" value="Submit" style=" float:right;">LOGOUT</button>
 </form>
 <style type="text/css">
@@ -38,7 +38,7 @@ input[type=text], input[type=password] {
 </style>
 <img src="/static/swami2.png"	style="width:450px;height:500px;" align=right>
 
-<form action="http://localhost:5000/addusers" method="post">
+<form action="/addusers" method="post">
 <h1 style="text-align:center;"><b>Please enter the details of the new user:</b> 
 <p><b>User name:</b><br>
 <input type="text" placeholder="Enter username" name="uname"required><br>
@@ -50,7 +50,7 @@ input[type=text], input[type=password] {
 </p>
 </form>
 
-<form action="http://localhost:5000/home" method="post">
+<form action="/home" method="post">
 	<button type="submit" value="submit"img scr="/static/swami2.png">Go Back </button>
 </form> 
 

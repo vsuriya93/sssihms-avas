@@ -1,0 +1,8 @@
+flask
+pyaudio
+pygame
+schedule
+python-vlc
+pycaw
+comtypes
+easygui

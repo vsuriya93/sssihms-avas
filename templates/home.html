@@ -127,13 +127,13 @@ h2{color:rgb(255,255,255);
 h9{color:rgb(255,255,255);
 	font-size:25px;}
 </style>
-<form action="http://localhost:5000/logout" method="post">
+<form action="/logout" method="post">
 	<button type="submit" value="Submit" name="one" style=" float:right;">Logout</button>
 </form>
 
 <h1 align="center">   SAIRAM </h1>
 <h2>Please select the blood group to be announced</h2>
-<form action="http://localhost:5000/request_blood" method="post">
+<form action="/request_blood" method="post">
 	  {% for blood_type in blood_group_list %}
 		<h9><input type="checkbox" style="background-color:white;" name= {{blood_type}} > {{blood_type}} </input> <br></h9>
 	  {% endfor %}
@@ -141,7 +141,7 @@ h9{color:rgb(255,255,255);
 	<button type="submit" value="Submit">Submit</button>
 <br>
 </form>
-<form action="http://localhost:5000/stop" method="post">
+<form action="/stop" method="post">
 <button type="submit" value="submit">Stop The Announcement</button>
 </form>
 </pre>

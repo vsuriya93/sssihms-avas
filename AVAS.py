@@ -11,38 +11,39 @@ import schedule
 import os
 import sys
 import threading
-import vlc
-import urllib
-# simple graphical user interface related package.
-from easygui import *
+import urllib.request
+import pygame
 
-# windows voice control related packages.
-from ctypes import cast, POINTER
-# windows voice control related packages.
-from comtypes import CLSCTX_ALL
-# windows voice control related packages.
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 # Flask - Client server related packages.
 from flask import Flask,render_template,request,session,redirect,url_for
 
-from globals import (stream_or_game)
+from globals import stream_or_game, vlc_available, url
 from Audio import (play_audio, play_all_blood_audio,
                    play_individual_blood_audio, bhajans_play,
                    pause, unpause)
 
+# Windows-only volume control — optional
+try:
+    from ctypes import cast, POINTER
+    from comtypes import CLSCTX_ALL
+    from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+    pycaw_available = True
+except (ImportError, OSError):
+    pycaw_available = False
+
 # for stopping bhajans
 value = 1
-
-url = "http://stream.radiosai.org:8000/"
 
 # initialize object of flask
 app = Flask(__name__)
 
+stream_or_game = 1  # variable stream_or_game: if 0 then through stream else through pygame we play the songs.
 
-	stream_or_game=1									# variable stream_or_game: if 0 then through stream else through pygame we play the songs.
-
-if (urllib.urlopen(url).getcode()) != 200:
-    stream_or_game = 1
+try:
+    if (urllib.request.urlopen(url).getcode()) != 200:
+        stream_or_game = 1
+except Exception:
+    stream_or_game = 1  # fallback to pygame if stream is unreachable
 
 # initialize the pygame mixer.
 pygame.mixer.pre_init(44100, 16, 2, 4096)
@@ -50,6 +51,22 @@ pygame.mixer.init()
 songNo = 0
 blood_group_list = ['O+', 'O-', 'A+', 'A-',
                     'B-', 'B+', 'AB-', 'AB+', 'ALL']
+
+
+def authenticate_user(result):
+    """Validate user credentials against user_details.txt."""
+    try:
+        fp = open('user/user_details.txt', 'r')
+        details = fp.readlines()
+        fp.close()
+        for row in details:
+            values = row.strip().split(':')
+            if len(values) == 2 and result['uname'] == values[0] and result['passwd'] == values[1]:
+                session['logged_in'] = True
+                return True
+    except (FileNotFoundError, KeyError):
+        pass
+    return False
 
 
 def run_thread(job_fun):
@@ -66,7 +83,7 @@ def avas():
     try:
         if __name__ == "__main__":
             app.secret_key = '3sdadsdad4'
-            app.run(host='0.0.0.0', threaded=True)
+            app.run(host='0.0.0.0', port=5001, threaded=True)
     except KeyboardInterrupt:
         print("You cancelled the program!")
         sys.exit(1)
@@ -91,10 +108,10 @@ def main():
 @app.route("/bloodRequest", methods=['POST'])
 def bloodRequest():
     result = request.form
-    check= authenticate_user(result)
+    check = authenticate_user(result)
     if check is False:
         return render_template('error.html')
-    if session['logged_in'] is False:
+    if not session.get('logged_in'):
         return render_template('login.html')
     session['logged_in'] = True
     return render_template('home.html', blood_group_list=blood_group_list)
@@ -144,14 +161,14 @@ def addusers():
     if not session.get('logged_in'):
         return redirect(url_for('main'))
     result = request.form
-    if result['passwd'] == result[passwd-rep]:
+    if result['passwd'] == result['passwd-rep']:
         s = "\n"+result['uname']+":"+result['passwd']
-        fp = open('user/user_details.txt', 'ab')
+        fp = open('user/user_details.txt', 'a')
         fp.write(s)
         fp.close()
-        return 	render_template('user_added.html')
+        return render_template('user_added.html')
     else:
-        return "Password missmatch"
+        return "Password mismatch"
 
 
 @app.route("/request_blood", methods=["POST"])
@@ -165,14 +182,18 @@ def request_blood():
                                    blood_group_list=blood_group_list)
         pause()
         flag = 1
-        devices = AudioUtilities.GetSpeakers()
-        interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-        volume = cast(interface, POINTER(IAudioEndpointVolume))
-        volume.GetMute()
-        volume.GetMasterVolumeLevel()
-        volume.GetVolumeRange()
-        volume.SetMasterVolumeLevel(-10.0, None)
+
+        # Set system volume (Windows only)
+        if pycaw_available:
+            devices = AudioUtilities.GetSpeakers()
+            interface = devices.Activate(
+                IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+            volume = cast(interface, POINTER(IAudioEndpointVolume))
+            volume.GetMute()
+            volume.GetMasterVolumeLevel()
+            volume.GetVolumeRange()
+            volume.SetMasterVolumeLevel(-10.0, None)
+
         play_audio('audio/1.wav')
         time.sleep(1)
         for times in range(1, 3):
@@ -183,8 +204,12 @@ def request_blood():
             if times%2==1: # for 'I repeat'
                 play_audio('audio/8.wav')
             time.sleep(0.5)
-        play_audio('audio/9.wav')	
-        volume.SetMasterVolumeLevel(-20.0, None)
+        play_audio('audio/9.wav')
+
+        # Restore volume (Windows only)
+        if pycaw_available:
+            volume.SetMasterVolumeLevel(-20.0, None)
+
         unpause()
         return render_template('after_announ.html')
 
